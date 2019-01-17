@@ -56,13 +56,15 @@ public class parser {
      * triggers a visitor that finds all constants and adds them to class attribute List constants
      * they can be used later for apdu triggers
      * visitor used: ConstantVisitor
-     *
+     *?
      * @param compilationUnit compilationUnit created by parsing source file
      */
     public static void getAllConstants(CompilationUnit compilationUnit){
+        List<Byte> tmpConstants = new ArrayList<Byte>();
         compilationUnit.findAll(VariableDeclarator.class).stream()
                 .filter(f -> f.getType().isPrimitiveType())
-                .forEach(f -> getConstants().addAll(f.accept(new ConstantVisitor(), null)));
+                .forEach(f -> tmpConstants.addAll(f.accept(new ConstantVisitor(), null)));
+        setConstants(tmpConstants);
     }
 
     /**
